@@ -52,6 +52,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AutocompleteComponent } from './cv/autocomplete/autocomplete.component';
 import { SliderComponent } from './rxjs/slider/slider.component';
 import { RainbowTextDirective } from './directives/rainbow-text.directive';
+import { TtcComponent } from './components/ttc/ttc.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { RainbowTextDirective } from './directives/rainbow-text.directive';
     UserListComponent,
     ProductsComponent,
     RainbowTextDirective,
+    TtcComponent
   ],
   bootstrap: [AppComponent],
   imports: [
