@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Todo } from '../model/todo';
 import { LoggerService } from '../../services/logger.service';
+import { TodoStatus } from "../model/status";
+
 
 let n = 1;
 
@@ -52,4 +54,21 @@ export class TodoService {
   logTodos() {
     this.loggerService.logger(this.todos);
   }
+
+  updateInProgress(todo: Todo) {
+    todo.status.update((value: TodoStatus) => {
+      return 'in progress';
+    });
+  }
+  updateDone(todo: Todo) {
+    todo.status.update((value: TodoStatus) => {
+      return 'done';
+    });
+  }
+  updateWaiting(todo: Todo) {
+    todo.status.update((value: TodoStatus) => {
+      return 'waiting';
+    });
+  }
+
 }

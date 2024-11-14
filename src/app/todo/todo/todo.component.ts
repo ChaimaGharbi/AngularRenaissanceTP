@@ -28,4 +28,15 @@ export class TodoComponent {
   deleteTodo(todo: Todo) {
     this.todoService.deleteTodo(todo);
   }
+
+  updateInProgress(todo: Todo) {
+    this.todoService.updateInProgress(todo);
+  }
+  updateDone(todo: Todo) {
+    this.todoService.updateDone(todo);
+  }
+  updateWaiting(todo: Todo) {
+    this.todoService.updateWaiting(todo);
+  }
+
 }

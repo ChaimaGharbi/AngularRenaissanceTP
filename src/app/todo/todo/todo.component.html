@@ -1,16 +1,64 @@
-<div class="row">
-  <div class="col">
-    <ol class="list-group">
-      <li *ngFor="let todo of todos" class="list-group-item">
-        {{todo.name}} : {{todo.content}}
-        <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
-      </li>
+<div class="">
+  <div class="row">
+    <div class="col">
+      <label>name:</label> <input [(ngModel)]="todo.name" type="text" class="form-control">
+    </div>
+    <div class="col">
+      <label>content:</label> <input [(ngModel)]="todo.content" type="text" class="form-control">
+    </div>
+    <div class="col">
+      <label>.</label>
+      <button (click)="addTodo()" [disabled]="!todo.name.trim() || !todo.content.trim()"
+       
+      class="btn btn-primary form-control">add</button>
+    </div> 
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>waiting</p>
+    
+    <ol class="list-group">   
+      <ng-container *ngFor="let todo of todos">
+        @if(todo.status() == 'waiting'){
+          <li  class="list-group-item">
+            {{ todo.name }} : {{ todo.content }}
+            <i (click)="updateInProgress(todo)" class="fa fa-arrow-right py-1" aria-hidden="true"></i>
+            <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
+            
+          </li>
+        }
+      </ng-container> 
+      
     </ol>
   </div>
   <div class="col">
-    name: <input [(ngModel)]="todo.name" type="text" class="form-control">
-    content: <input [(ngModel)]="todo.content" type="text" class="form-control">
-    <button (click)="addTodo()" [disabled]="!todo.name.trim() || !todo.content.trim()"
-      class="btn btn-primary m-2">add</button>
+    <p>In Progress</p>
+  
+    <ol class="list-group col">
+      <ng-container *ngFor="let todo of todos">
+        @if(todo.status() == 'in progress'){
+          <li class="list-group-item">
+            {{ todo.name }} : {{ todo.content }}
+            <i (click)="updateWaiting(todo)" class="fa fa-arrow-left py-1" aria-hidden="true"></i>
+            <i (click)="updateDone(todo)" class="fa fa-arrow-right py-1" aria-hidden="true"></i>
+            <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
+          </li>
+        }
+      </ng-container>   
+    </ol>
+  </div>
+  <div class="col">
+    <p>Done</p>
+    <ol class="list-group col">
+      <ng-container *ngFor="let todo of todos">
+        @if(todo.status() == 'done'){
+          <li class="list-group-item">
+            {{ todo.name }} : {{ todo.content }}
+            <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
+          </li>
+        }
+      </ng-container> 
+    </ol>
+  </div>
   </div>
 </div>
