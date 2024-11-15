@@ -28,7 +28,8 @@ export class EmbaucheService {
    * @param cv : Cv
    * @returns boolean
    */
-  embauche(cv: Cv): boolean {
+  embauche(cv: Cv | null): boolean {
+    if(cv)
     if (this.embauchees.indexOf(cv) == -1) {
       this.embauchees.push(cv);
       return true;

@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, input } from '@angular/core';
 import { Cv } from '../model/cv';
 import { EmbaucheService } from '../services/embauche.service';
 import { ToastrService } from 'ngx-toastr';
@@ -21,18 +21,18 @@ export class CvCardComponent {
   private embaucheService = inject(EmbaucheService);
   private toastr = inject(ToastrService);
 
-  @Input() cv: Cv | null = null;
+  cv = input.required<Cv | null>();
 
   ngOnInit() {}
   embaucher() {
-    if (this.cv) {
-      if (this.embaucheService.embauche(this.cv)) {
+    if (this.cv()) {
+      if (this.cv() && this.embaucheService.embauche(this.cv())) {
         this.toastr.success(
-          `${this.cv?.firstname} ${this.cv?.name} a été pré embauché`
+          `${this.cv()?.firstname} ${this.cv?.name} a été pré embauché`
         );
       } else {
         this.toastr.warning(
-          `${this.cv?.firstname} ${this.cv?.name} est déjà pré embauché`
+          `${this.cv()?.firstname} ${this.cv?.name} est déjà pré embauché`
         );
       }
     }
