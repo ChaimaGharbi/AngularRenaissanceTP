@@ -15,49 +15,37 @@
   </div>
   <div class="row">
     <div class="col">
-      <p>waiting</p>
+      <p class="p-3 ">waiting</p>
     
     <ol class="list-group">   
-      <ng-container *ngFor="let todo of todos">
-        @if(todo.status() == 'waiting'){
-          <li  class="list-group-item">
+          <li *ngFor="let todo of display()['waiting']"  class="list-group-item">
             {{ todo.name }} : {{ todo.content }}
             <i (click)="updateInProgress(todo)" class="fa fa-arrow-right py-1" aria-hidden="true"></i>
             <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
             
           </li>
-        }
-      </ng-container> 
-      
     </ol>
   </div>
   <div class="col">
-    <p>In Progress</p>
+    <p class="p-3">In Progress</p>
   
     <ol class="list-group col">
-      <ng-container *ngFor="let todo of todos">
-        @if(todo.status() == 'in progress'){
-          <li class="list-group-item">
+          <li *ngFor="let todo of display()['in progress']" class="list-group-item">
             {{ todo.name }} : {{ todo.content }}
             <i (click)="updateWaiting(todo)" class="fa fa-arrow-left py-1" aria-hidden="true"></i>
             <i (click)="updateDone(todo)" class="fa fa-arrow-right py-1" aria-hidden="true"></i>
             <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
           </li>
-        }
-      </ng-container>   
     </ol>
   </div>
   <div class="col">
-    <p>Done</p>
+    <p class="p-3">Done</p>
     <ol class="list-group col">
-      <ng-container *ngFor="let todo of todos">
-        @if(todo.status() == 'done'){
-          <li class="list-group-item">
+          <li *ngFor="let todo of display()['done']" class="list-group-item">
             {{ todo.name }} : {{ todo.content }}
             <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
           </li>
-        }
-      </ng-container> 
+
     </ol>
   </div>
   </div>
