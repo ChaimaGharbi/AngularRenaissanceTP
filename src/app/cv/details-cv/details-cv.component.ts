@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { Cv } from '../model/cv';
 import { CvService } from '../services/cv.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,20 +22,21 @@ export class DetailsCvComponent implements OnInit {
   private toastr = inject(ToastrService);
   authService = inject(AuthService);
 
-  cv: Cv | null = null;
+  cv : WritableSignal<Cv | null> = signal(null);
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.params['id'];
     this.cvService.getCvById(+id).subscribe({
         next: (cv) => {
-          this.cv = cv;
+          this.cv.set(cv);
         },
         error: (e) => {
           this.router.navigate([APP_ROUTES.cv]);
         },
       });
   }
-  deleteCv(cv: Cv) {
+  deleteCv(cv: Cv | null) {
+    if(cv)
     this.cvService.deleteCvById(cv.id).subscribe({
       next: () => {
         this.toastr.success(`${cv.name} supprimé avec succès`);
