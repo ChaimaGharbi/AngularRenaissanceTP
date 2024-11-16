@@ -1,27 +1,28 @@
-# Aymen Sellaouti Advanced Training
+The @Input decorator in Angular is used to define a property in a child component that receives data from a parent component. This property is bound to the value passed from the parent, and Angular's change detection ensures the value is updated when it changes.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.1.
+Input signals are a new feature introduced in Angular 16, leveraging the reactivity of Signals to improve state management and data flow. Signals are a built-in mechanism to manage state reactively, and when combined with input properties, they provide a more efficient and predictable way to handle input changes.
 
-## Development server
+The change detection cycle is a process in Angular where the framework checks for changes in the state of components and updates the DOM accordingly.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+How It Works:
 
-## Code scaffolding
+Angular runs a zone-based mechanism to detect state changes.
+It traverses the component tree and compares the current values of bindings with their previous values (dirty checking).
+When a change is detected, Angular updates the DOM and recalculates the view.
+Characteristics:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Triggered By: Events like user interactions, HTTP responses, timers (setTimeout, setInterval), or other asynchronous tasks.
+Granularity: Checks the entire component tree during each cycle.
+Performance Implication: Can be inefficient in large applications because all components are checked, even if most of them haven’t changed.
 
-## Build
+Reactivity refers to a programming model where state changes are automatically propagated to dependent parts of the application without the need for explicit checks or cycles.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+How It Works:
 
-## Running unit tests
+Reactive systems track dependencies explicitly (e.g., signals, observables).
+When a dependency changes, only the parts of the application relying on that specific state are updated.
+Characteristics:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Triggered By: Changes in state explicitly tracked by the reactive system (e.g., signals, observables).
+Granularity: Updates only the components or views that depend on the changed state.
+Performance Implication: More efficient than change detection as it avoids unnecessary checks.
