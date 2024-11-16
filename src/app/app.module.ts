@@ -93,7 +93,7 @@ import { TtcComponent } from './components/ttc/ttc.component';
     UserListComponent,
     ProductsComponent,
     RainbowTextDirective,
-    TtcComponent
+    TtcComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
