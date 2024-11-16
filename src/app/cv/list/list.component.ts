@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, input } from "@angular/core";
 import { Cv } from "../model/cv";
 import { NgFor, NgClass } from "@angular/common";
 import { ItemComponent } from "../item/item.component";
@@ -15,5 +15,5 @@ import { ItemComponent } from "../item/item.component";
     ],
 })
 export class ListComponent {
-  @Input() cvs: Cv[] | null = [];
+  cvs = input<Cv[]>();
 }
