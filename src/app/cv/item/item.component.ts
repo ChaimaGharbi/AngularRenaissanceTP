@@ -15,7 +15,7 @@ export class ItemComponent {
   private cvService = inject(CvService);
 
   cv = input.required<Cv>();
-  size = input<number>(5);
+  size = input<number>(50);
 
   onSelectCv() {
     this.cvService.selectCv(this.cv());

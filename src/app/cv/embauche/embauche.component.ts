@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { EmbaucheService } from '../services/embauche.service';
 import { Cv } from '../model/cv';
 import { NgIf, NgFor } from '@angular/common';
@@ -18,8 +18,8 @@ import { ItemComponent } from '../item/item.component';
 export class EmbaucheComponent {
   private embaucheService = inject(EmbaucheService);
 
-  public embauchees: Cv[] = [];
+  public embauchees: WritableSignal<Cv[]> = signal([]);
   constructor() {
-    this.embauchees = this.embaucheService.getEmbauchees();
+    this.embauchees.set(this.embaucheService.getEmbauchees());
   }
 }
