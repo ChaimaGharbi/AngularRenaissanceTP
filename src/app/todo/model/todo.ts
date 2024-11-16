@@ -1,3 +1,9 @@
+import { signal, WritableSignal } from "@angular/core";
+import { TodoStatus } from "./status";
+
 export class Todo {
-  constructor(public name = '', public content = '') {}
+  private id: number = 0;
+  public status: TodoStatus ="waiting";
+  constructor(public name = '', public content = '') {
+  }
 }
