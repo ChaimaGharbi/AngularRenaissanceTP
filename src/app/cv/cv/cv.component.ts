@@ -3,6 +3,7 @@ import { Cv } from "../model/cv";
 import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
+import { ActivatedRoute } from "@angular/router";
 import { catchError, Observable, of } from "rxjs";
 @Component({
   selector: "app-cv",
@@ -10,26 +11,22 @@ import { catchError, Observable, of } from "rxjs";
   styleUrls: ["./cv.component.css"],
 })
 export class CvComponent {
-  cvs$: Observable <Cv[]>; 
+  cvs: Cv[] = []; // Stocker les CVs résolus
   selectedCv$: Observable <Cv | null>;
   date = new Date();
 
   constructor(
     private logger: LoggerService,
     private toastr: ToastrService,
-    private cvService: CvService
+    private cvService: CvService,
+    private activatedRoute: ActivatedRoute
+
   ) {
-    this.cvs$ = this.cvService.getCvs().pipe(
-      catchError(() => {
-        this.toastr.error(`
-          Attention!! Les données sont fictives, problème avec le serveur.
-          Veuillez contacter l'admin.`);
-        return of(this.cvService.getFakeCvs());;
-      })
-    );
+    // Récupérer les données résolues depuis le Router
+    this.cvs = this.activatedRoute.snapshot.data['cvs'] || [];
 
     // Observable pour le CV sélectionné
-    this.selectedCv$ = this.cvService.selectCv$;
+    this.selectedCv$ = of(null);
 
     // Logs et notifications
     this.logger.logger("je suis le cvComponent");

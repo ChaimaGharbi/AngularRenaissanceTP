@@ -3,7 +3,7 @@
     <div class="alert alert-warning">
       {{ date | date : "full" | uppercase }}
     </div>
-    <ng-container *ngIf="cvs$ | async as cvs ">
+    <ng-container *ngIf="cvs && cvs.length > 0">
       <app-list [cvs]="cvs"></app-list>
     </ng-container>
   </div>
