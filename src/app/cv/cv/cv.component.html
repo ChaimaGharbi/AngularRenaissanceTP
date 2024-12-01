@@ -3,7 +3,15 @@
     <div class="alert alert-warning">
       {{ date | date : "full" | uppercase }}
     </div>
-    <app-list [cvs]="cvs"></app-list>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'active': type === 'juniors'}" (click)="getToJuniors()">Juniors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'active': type === 'seniors'}" (click)="getToSeniors()">Seniors</a>
+      </li>
+    </ul>
+    <app-list [cvs]="type === 'juniors' ? juniorCvs : seniorCvs"></app-list>
   </div>
   <div class="col">
     <app-cv-card [cv]="selectedCv"></app-cv-card>
