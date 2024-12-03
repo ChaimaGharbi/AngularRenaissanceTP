@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Cv } from "../model/cv";
 
+
 @Component({
   selector: "app-list",
   templateUrl: "./list.component.html",
