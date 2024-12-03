@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
 
   constructor() { }
   ngOnInit() {
-    let totalProducts = Infinity; // Set an initial "unbounded" total
+    let totalProducts = Infinity; 
   
     this.products$ = this.settings$.pipe(
       concatMap((settings) => this.productService.getProducts(settings)), 
