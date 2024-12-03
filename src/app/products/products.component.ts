@@ -1,9 +1,10 @@
 import { Component, OnInit, inject } from "@angular/core";
 import {
   BehaviorSubject,
+  concatMap,
   Observable,
   scan,
-  switchMap,
+  takeWhile,
 } from "rxjs";
 import { Product } from "./dto/product.dto";
 import { ProductService } from "./services/product.service";
@@ -24,18 +25,23 @@ export class ProductsComponent implements OnInit {
 
   constructor() { }
   ngOnInit() {
+    let totalProducts = Infinity; // Set an initial "unbounded" total
+  
     this.products$ = this.settings$.pipe(
-      switchMap((settings) => this.productService.getProducts(settings)),
+      concatMap((settings) => this.productService.getProducts(settings)), 
       scan((acc: Product[], value: ProductApiResponse) => {
-        return [...acc, ...value.products];
-      }, [])
+        const updatedProducts = [...acc, ...value.products];
+        totalProducts = value.total;  
+        return updatedProducts.length > totalProducts ? updatedProducts.slice(0, totalProducts) : updatedProducts;
+      }, []),
+      takeWhile((products) => products.length < totalProducts, true) 
     );
   }
 
   loadMoreProducts() {
     this.settings$.next({
       ...this.settings$.value,
-      skip: this.settings$.value.skip + this.settings$.value.limit, // Mise à jour du paramètre `skip`
+      skip: this.settings$.value.skip + this.settings$.value.limit, 
     });
   }
 }
