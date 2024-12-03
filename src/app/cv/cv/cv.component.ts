@@ -4,7 +4,6 @@ import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
 import { Router } from "@angular/router";
-import { ActivatedRoute } from "@angular/router";
 import { catchError, Observable, of } from "rxjs";
 @Component({
   selector: "app-cv",
@@ -14,6 +13,8 @@ import { catchError, Observable, of } from "rxjs";
 export class CvComponent {
   cvs$: Observable <Cv[]>; 
   selectedCv$: Observable <Cv | null>;
+  juniorCvs: Cv[] = [];
+  seniorCvs: Cv[] = [];
   date = new Date();
   type: string = "juniors";
 
@@ -22,7 +23,6 @@ export class CvComponent {
     private toastr: ToastrService,
     private cvService: CvService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
   ) {
     this.cvs$ = this.cvService.getCvs().pipe(
       catchError(() => {
@@ -39,13 +39,34 @@ export class CvComponent {
     // Logs et notifications
     this.logger.logger("je suis le cvComponent");
     this.toastr.info("Bienvenu dans notre CvTech");
+
+    this.cvs$.subscribe(cvs => {
+      cvs.forEach(cv => {
+        if (cv.age < 40) {
+          this.juniorCvs.push(cv);
+        } else {
+          this.seniorCvs.push(cv);
+        }
+      });
+    });
+
+  this.router.events.subscribe(() => {
+    const newType = this.router.getCurrentNavigation()?.extras?.state?.['type'];
+    if (newType) {
+    this.type = newType;
+    }
+  });
   }
 
-  getToJuniors(){
-    this.router.navigate(["cv", { type: "juniors" }]);
+  getToJuniors() {
+  this.router.navigate(['cv'], { 
+    state: { type: 'juniors' }
+  });
   }
 
-  getToSeniors(){
-    this.router.navigate(["cv" , { type: "seniors" }]);
+  getToSeniors() {
+  this.router.navigate(['cv'], { 
+    state: { type: 'seniors' }
+  });
   }
 }
