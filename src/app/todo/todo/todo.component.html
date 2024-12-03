@@ -9,44 +9,49 @@
     <div class="col">
       <label>.</label>
       <button (click)="addTodo()" [disabled]="!todo.name.trim() || !todo.content.trim()"
-       
+
       class="btn btn-primary form-control">add</button>
-    </div> 
+    </div>
   </div>
   <div class="row">
     <div class="col">
       <p class="p-3 ">waiting</p>
-    
-    <ol class="list-group">   
-          <li *ngFor="let todo of display()['waiting']"  class="list-group-item">
+
+      <ol class="list-group">
+        @for (todo of display()['waiting']; track todo) {
+          <li  class="list-group-item">
             {{ todo.name }} : {{ todo.content }}
             <i (click)="updateInProgress(todo)" class="fa fa-arrow-right py-1" aria-hidden="true"></i>
             <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
-            
           </li>
-    </ol>
-  </div>
-  <div class="col">
-    <p class="p-3">In Progress</p>
-  
-    <ol class="list-group col">
-          <li *ngFor="let todo of display()['in progress']" class="list-group-item">
+        }
+      </ol>
+    </div>
+    <div class="col">
+      <p class="p-3">In Progress</p>
+
+      <ol class="list-group col">
+        @for (todo of display()['in progress']; track todo) {
+          <li class="list-group-item">
             {{ todo.name }} : {{ todo.content }}
             <i (click)="updateWaiting(todo)" class="fa fa-arrow-left py-1" aria-hidden="true"></i>
             <i (click)="updateDone(todo)" class="fa fa-arrow-right py-1" aria-hidden="true"></i>
             <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
           </li>
-    </ol>
-  </div>
-  <div class="col">
-    <p class="p-3">Done</p>
-    <ol class="list-group col">
-          <li *ngFor="let todo of display()['done']" class="list-group-item">
+        }
+      </ol>
+    </div>
+    <div class="col">
+      <p class="p-3">Done</p>
+      <ol class="list-group col">
+        @for (todo of display()['done']; track todo) {
+          <li class="list-group-item">
             {{ todo.name }} : {{ todo.content }}
             <i (click)="deleteTodo(todo)" class="fa fa-trash" aria-hidden="true"></i>
           </li>
+        }
 
-    </ol>
-  </div>
+      </ol>
+    </div>
   </div>
 </div>
