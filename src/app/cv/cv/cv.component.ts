@@ -5,17 +5,15 @@ import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
+import { catchError, Observable, of } from "rxjs";
 @Component({
   selector: "app-cv",
   templateUrl: "./cv.component.html",
   styleUrls: ["./cv.component.css"],
 })
 export class CvComponent {
-  cvs: Cv[] = [];
-  juniorCvs: Cv[] = [];
-  seniorCvs: Cv[] = [];
-  selectedCv: Cv | null = null;
-  /*   selectedCv: Cv | null = null; */
+  cvs$: Observable <Cv[]>; 
+  selectedCv$: Observable <Cv | null>;
   date = new Date();
   type: string = "juniors";
 
@@ -26,36 +24,21 @@ export class CvComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.type = this.activatedRoute.snapshot.paramMap.get("type") || this.type; 
-
-    this.activatedRoute.params.subscribe(params => {
-      this.type = params['type'] || this.type;
-      console.log('Updated type:', this.type);
-    });
-
-    this.cvService.getCvs().subscribe({
-      next: (cvs) => {
-        this.cvs = cvs;
-        this.juniorCvs = [];
-        this.seniorCvs = [];
-        cvs.forEach(cv => {
-          if (cv.age < 40) {
-            this.juniorCvs.push(cv);
-          } else {
-            this.seniorCvs.push(cv);
-          }
-        });
-      },
-      error: () => {
-        this.cvs = this.cvService.getFakeCvs();
+    this.cvs$ = this.cvService.getCvs().pipe(
+      catchError(() => {
         this.toastr.error(`
           Attention!! Les données sont fictives, problème avec le serveur.
           Veuillez contacter l'admin.`);
-      },
-    });
+        return of(this.cvService.getFakeCvs());;
+      })
+    );
+
+    // Observable pour le CV sélectionné
+    this.selectedCv$ = this.cvService.selectCv$;
+
+    // Logs et notifications
     this.logger.logger("je suis le cvComponent");
     this.toastr.info("Bienvenu dans notre CvTech");
-    this.cvService.selectCv$.subscribe((cv) => (this.selectedCv = cv));
   }
 
   getToJuniors(){

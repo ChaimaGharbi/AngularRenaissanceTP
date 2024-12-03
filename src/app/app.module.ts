@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from "@angular/core";
+import { isDevMode, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -51,6 +51,8 @@ import { ProductsComponent } from "./products/products.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { AutocompleteComponent } from "./cv/autocomplete/autocomplete.component";
 import { SliderComponent } from "./rxjs/slider/slider.component";
+import { AutocompleteListComponent } from "./cv/autocomplete-list/autocomplete-list.component";
+import { AutocompleteItemComponent } from "./cv/autocomplete-item/autocomplete-item.component";
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { SliderComponent } from "./rxjs/slider/slider.component";
     EmbaucheComponent,
     DefaultImagePipe,
     AutocompleteComponent,
+    AutocompleteListComponent,
+    AutocompleteItemComponent,
     NgstyleComponent,
     MiniWordComponent,
     NgclassComponent,
@@ -111,4 +115,4 @@ import { SliderComponent } from "./rxjs/slider/slider.component";
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
-export class AppModule {}
+export class AppModule { }
