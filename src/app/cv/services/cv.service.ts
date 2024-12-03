@@ -25,57 +25,48 @@ export class CvService {
   }
 
   /**
-   *
    * Retourne un liste fictive de cvs
    *
    * @returns CV[]
-   *
    */
   getFakeCvs(): Cv[] {
     return this.cvs;
   }
 
   /**
-   *
    * Retourne la liste des cvs de l'API
    *
    * @returns CV[]
-   *
    */
   getCvs(): Observable<Cv[]> {
     return this.http.get<Cv[]>(API.cv);
   }
 
   /**
-   *
    * supprime un cv par son id de l'API
    *
    * @param id: number
    * @returns CV[]
-   *
    */
-  deleteCvById(id: number): Observable<any> {
-    return this.http.delete<any>(API.cv + id);
+  deleteCvById(id: number): Observable<unknown> {
+    return this.http.delete<unknown>(API.cv + id);
   }
 
   addCv(cv: Cv): Observable<Cv> {
-    return this.http.post<any>(API.cv, cv);
+    return this.http.post<Cv>(API.cv, cv);
   }
 
   /**
-   *
    * Retourne un cv par son id de l'API
    *
    * @param id: number
    * @returns CV[]
-   *
    */
   getCvById(id: number): Observable<Cv> {
     return this.http.get<Cv>(API.cv + id);
   }
 
   /**
-   *
    * Cherche un cv avec son id dans lai liste fictive de cvs
    *
    * @param id
@@ -86,7 +77,6 @@ export class CvService {
   }
 
   /**
-   *
    * Supprime un cv s'il le trouve
    *
    * @param cv : Cv
@@ -109,8 +99,9 @@ export class CvService {
   selectByName(name: string) {
     const search = `{"where":{"name":{"like":"%${name}%"}}}`;
     const params = new HttpParams().set("filter", search);
-    return this.http.get<any>(API.cv, { params });
+    return this.http.get<Cv[]>(API.cv, { params });
   }
+
   /**
    * Recherche les cvs dont la valeur est égale à la chaine passée en paramètre
    * @param property : string, la propriété sur laquelle on va requeter
