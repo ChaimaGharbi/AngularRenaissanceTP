@@ -1,6 +1,5 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Cv } from "../model/cv";
-
 
 @Component({
   selector: "app-list",
@@ -8,5 +7,6 @@ import { Cv } from "../model/cv";
   styleUrls: ["./list.component.css"],
 })
 export class ListComponent {
-  @Input() cvs: Cv[] | null = [];
+  @Input()
+  cvs: Cv[] | null = [];
 }

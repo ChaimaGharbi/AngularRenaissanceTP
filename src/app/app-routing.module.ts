@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Route } from "@angular/router";
+import { Route, RouterModule } from "@angular/router";
 import { TodoComponent } from "./todo/todo/todo.component";
 import { MiniWordComponent } from "./directives/mini-word/mini-word.component";
 import { ColorComponent } from "./components/color/color.component";
@@ -12,7 +12,7 @@ import { AddCvComponent } from "./cv/add-cv/add-cv.component";
 import { CvComponent } from "./cv/cv/cv.component";
 import { DetailsCvComponent } from "./cv/details-cv/details-cv.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
-import { MasterDeatailsCvComponent } from "./mycv/master-details-cv/master-details-cv.component";
+import { MasterDetailsCvComponent } from "./mycv/master-details-cv/master-details-cv.component";
 import { DetailsCv2Component } from "./mycv/details-cv/details-cv.component";
 
 const routes: Route[] = [
@@ -22,15 +22,17 @@ const routes: Route[] = [
     path: "cv",
     component: CvComponent,
   },
-  { path: "cv/list", component: MasterDeatailsCvComponent,
+  {
+    path: "cv/list",
+    component: MasterDetailsCvComponent,
     children: [
       {
         path: ":id",
-        component: DetailsCv2Component
-      }]
+        component: DetailsCv2Component,
+      },
+    ],
   },
   { path: "cv/add", component: AddCvComponent, canActivate: [AuthGuard] },
-  
   { path: "cv/:id", component: DetailsCvComponent },
   {
     path: "",
@@ -52,4 +54,4 @@ const routes: Route[] = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -9,7 +9,7 @@ import { CvService } from "src/app/cv/services/cv.service";
   templateUrl: "./master-details-cv.component.html",
   styleUrls: ["./master-details-cv.component.css"],
 })
-export class MasterDeatailsCvComponent {
+export class MasterDetailsCvComponent {
   cvs$: Observable <Cv[]>;
 
   constructor(

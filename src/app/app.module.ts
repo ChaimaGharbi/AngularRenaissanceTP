@@ -53,9 +53,8 @@ import { AutocompleteComponent } from "./cv/autocomplete/autocomplete.component"
 import { SliderComponent } from "./rxjs/slider/slider.component";
 import { AutocompleteListComponent } from "./cv/autocomplete-list/autocomplete-list.component";
 import { AutocompleteItemComponent } from "./cv/autocomplete-item/autocomplete-item.component";
-import { MasterDeatailsCvComponent } from "./mycv/master-details-cv/master-details-cv.component";
+import { MasterDetailsCvComponent } from "./mycv/master-details-cv/master-details-cv.component";
 import { List2Component } from "./mycv/list/list.component";
-import { Router, RouterOutlet } from "@angular/router";
 import { DetailsCv2Component } from "./mycv/details-cv/details-cv.component";
 
 @NgModule({
@@ -98,7 +97,7 @@ import { DetailsCv2Component } from "./mycv/details-cv/details-cv.component";
     RhComponent,
     UserListComponent,
     ProductsComponent,
-    MasterDeatailsCvComponent,
+    MasterDetailsCvComponent,
     List2Component,
     DetailsCv2Component,
   ],
