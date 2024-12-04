@@ -3,9 +3,9 @@ import { Cv } from "../model/cv";
 import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { Router } from "@angular/router";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-cv",
@@ -41,7 +41,9 @@ export class CvComponent {
       }
     });
 
-    this.router.events.subscribe(() => {
+    this.router.events.pipe(
+      takeUntilDestroyed(),
+    ).subscribe(() => {
       const newType = this.router.getCurrentNavigation()?.extras?.state
         ?.["type"];
       if (newType) {
