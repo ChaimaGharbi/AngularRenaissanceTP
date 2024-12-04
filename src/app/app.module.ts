@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from "@angular/core";
+import { isDevMode, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -40,8 +40,6 @@ import { UserListComponent } from "./optimizationPattern/user-list/user-list.com
 import { ProductsComponent } from "./products/products.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { SliderComponent } from "./rxjs/slider/slider.component";
-import { CvModule } from './cv/cv.module';
-import { TodoModule } from './todo/todo.module';
 
 @NgModule({
   declarations: [
@@ -86,12 +84,10 @@ import { TodoModule } from './todo/todo.module';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: "registerWhenStable:30000",
     }),
-    CvModule,
-    TodoModule,
   ],
   providers: [
     AuthInterceptorProvider,
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
-export class AppModule {}
+export class AppModule { }
