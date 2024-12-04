@@ -1,12 +1,28 @@
 <div class="row">
+    <app-autocomplete />
+</div>
+
+<div class="row">
   <div class="col">
     <div class="alert alert-warning">
       {{ date | date : "full" | uppercase }}
     </div>
-    <app-list [cvs]="cvs"></app-list>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'active': type === 'juniors'}" (click)="getToJuniors()">Juniors</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'active': type === 'seniors'}" (click)="getToSeniors()">Seniors</a>
+      </li>
+    </ul>
+    <ng-container *ngIf="cvs$ | async as cvs ">
+      <app-list [cvs]="type === 'juniors' ? juniorCvs : seniorCvs"></app-list>
+    </ng-container>
   </div>
   <div class="col">
-    <app-cv-card [cv]="selectedCv"></app-cv-card>
+    <ng-container *ngIf="selectedCv$ | async as selectedCv">
+      <app-cv-card [cv]="selectedCv"></app-cv-card>
+    </ng-container>
   </div>
 </div>
 <app-embauche></app-embauche>

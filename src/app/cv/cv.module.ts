@@ -12,11 +12,26 @@ import { EmbaucheComponent } from "./embauche/embauche.component";
 import { AutocompleteComponent } from "./autocomplete/autocomplete.component";
 import { DefaultImagePipe } from "./pipes/default-image.pipe";
 import { ReactiveFormsModule } from "@angular/forms";
+import { AutocompleteListComponent } from "./autocomplete-list/autocomplete-list.component";
+import { AutocompleteItemComponent } from "./autocomplete-item/autocomplete-item.component";
+import { MasterDetailsCvComponent } from "../mycv/master-details-cv/master-details-cv.component";
+import { List2Component } from "../mycv/list/list.component";
+import { DetailsCv2Component } from "../mycv/details-cv/details-cv.component";
 
 const routes: Routes = [
   {
     path: "",
     component: CvComponent,
+  },
+  {
+    path: "list",
+    component: MasterDetailsCvComponent,
+    children: [
+      {
+        path: ":id",
+        component: DetailsCv2Component,
+      },
+    ],
   },
   { path: "add", component: AddCvComponent, canActivate: [AuthGuard] },
   { path: ":id", component: DetailsCvComponent },
@@ -32,6 +47,11 @@ const routes: Routes = [
     CvCardComponent,
     EmbaucheComponent,
     AutocompleteComponent,
+    AutocompleteListComponent,
+    AutocompleteItemComponent,
+    MasterDetailsCvComponent,
+    List2Component,
+    DetailsCv2Component,
     DefaultImagePipe,
   ],
   imports: [
