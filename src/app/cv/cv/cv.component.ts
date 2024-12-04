@@ -4,32 +4,64 @@ import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
 import { ActivatedRoute } from "@angular/router";
-import { catchError, Observable, of } from "rxjs";
+import { Observable } from "rxjs";
+import { Router } from "@angular/router";
+
 @Component({
   selector: "app-cv",
   templateUrl: "./cv.component.html",
   styleUrls: ["./cv.component.css"],
 })
 export class CvComponent {
-  cvs: Cv[] = []; // Stocker les CVs résolus
-  selectedCv$: Observable <Cv | null>;
+  cvs: Cv[] = [];
+  juniorCvs: Cv[] = [];
+  seniorCvs: Cv[] = [];
+
+  type: string = "juniors";
+
+  selectedCv$: Observable<Cv | null>;
+
   date = new Date();
 
   constructor(
     private logger: LoggerService,
     private toastr: ToastrService,
     private cvService: CvService,
-    private activatedRoute: ActivatedRoute
-
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
   ) {
-    // Récupérer les données résolues depuis le Router
-    this.cvs = this.activatedRoute.snapshot.data['cvs'] || [];
+    this.cvs = this.activatedRoute.snapshot.data["cvs"];
+    this.selectedCv$ = this.cvService.selectCv$;
 
-    // Observable pour le CV sélectionné
-    this.selectedCv$ = of(null);
+    this.cvs.forEach((cv) => {
+      if (cv.age < 40) {
+        this.juniorCvs.push(cv);
+      } else {
+        this.seniorCvs.push(cv);
+      }
+    });
 
-    // Logs et notifications
+    this.router.events.subscribe(() => {
+      const newType = this.router.getCurrentNavigation()?.extras?.state
+        ?.["type"];
+      if (newType) {
+        this.type = newType;
+      }
+    });
+
     this.logger.logger("je suis le cvComponent");
     this.toastr.info("Bienvenu dans notre CvTech");
+  }
+
+  getToJuniors() {
+    this.router.navigate(["cv"], {
+      state: { type: "juniors" },
+    });
+  }
+
+  getToSeniors() {
+    this.router.navigate(["cv"], {
+      state: { type: "seniors" },
+    });
   }
 }
