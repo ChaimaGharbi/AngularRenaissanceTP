@@ -7,8 +7,8 @@ import { AdminComponent } from "./templates/admin/admin.component";
 import { LoginComponent } from "./auth/login/login.component";
 import { NF404Component } from "./components/nf404/nf404.component";
 import { RhComponent } from "./optimizationPattern/rh/rh.component";
-import { CustomPreloadingStrategy } from "./custom.preloading.strategy";
 import { ProductsComponent } from "./products/products.component";
+import { CustomPreloadingStrategy } from "./custom.preloading.strategy";
 
 const routes: Route[] = [
   { path: "login", component: LoginComponent },
@@ -17,7 +17,9 @@ const routes: Route[] = [
   {
     path: "cv",
     loadChildren: () => import("./cv/cv.module").then((m) => m.CvModule),
-    data: { preload: true },
+    data: {
+      preload: true,
+    },
   },
   {
     path: "",

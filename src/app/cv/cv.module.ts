@@ -17,11 +17,15 @@ import { AutocompleteItemComponent } from "./autocomplete-item/autocomplete-item
 import { MasterDetailsCvComponent } from "../mycv/master-details-cv/master-details-cv.component";
 import { List2Component } from "../mycv/list/list.component";
 import { DetailsCv2Component } from "../mycv/details-cv/details-cv.component";
+import { CvListResolver } from "./cv/resolver";
 
 const routes: Routes = [
   {
     path: "",
     component: CvComponent,
+    resolve: {
+      cvs: CvListResolver,
+    },
   },
   {
     path: "list",

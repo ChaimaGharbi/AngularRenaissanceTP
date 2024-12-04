@@ -3,7 +3,8 @@ import { Cv } from "../model/cv";
 import { LoggerService } from "../../services/logger.service";
 import { ToastrService } from "ngx-toastr";
 import { CvService } from "../services/cv.service";
-import { catchError, Observable, of } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
+import { Observable } from "rxjs";
 import { Router } from "@angular/router";
 
 @Component({
@@ -12,43 +13,32 @@ import { Router } from "@angular/router";
   styleUrls: ["./cv.component.css"],
 })
 export class CvComponent {
-  cvs$: Observable<Cv[]>;
-  selectedCv$: Observable<Cv | null>;
+  cvs: Cv[] = [];
   juniorCvs: Cv[] = [];
   seniorCvs: Cv[] = [];
-  date = new Date();
+
   type: string = "juniors";
+
+  selectedCv$: Observable<Cv | null>;
+
+  date = new Date();
 
   constructor(
     private logger: LoggerService,
     private toastr: ToastrService,
     private cvService: CvService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
   ) {
-    this.cvs$ = this.cvService.getCvs().pipe(
-      catchError(() => {
-        this.toastr.error(`
-          Attention!! Les données sont fictives, problème avec le serveur.
-          Veuillez contacter l'admin.`);
-        return of(this.cvService.getFakeCvs());
-      }),
-    );
-
-    // Observable pour le CV sélectionné
+    this.cvs = this.activatedRoute.snapshot.data["cvs"];
     this.selectedCv$ = this.cvService.selectCv$;
 
-    // Logs et notifications
-    this.logger.logger("je suis le cvComponent");
-    this.toastr.info("Bienvenu dans notre CvTech");
-
-    this.cvs$.subscribe((cvs) => {
-      cvs.forEach((cv) => {
-        if (cv.age < 40) {
-          this.juniorCvs.push(cv);
-        } else {
-          this.seniorCvs.push(cv);
-        }
-      });
+    this.cvs.forEach((cv) => {
+      if (cv.age < 40) {
+        this.juniorCvs.push(cv);
+      } else {
+        this.seniorCvs.push(cv);
+      }
     });
 
     this.router.events.subscribe(() => {
@@ -58,6 +48,9 @@ export class CvComponent {
         this.type = newType;
       }
     });
+
+    this.logger.logger("je suis le cvComponent");
+    this.toastr.info("Bienvenu dans notre CvTech");
   }
 
   getToJuniors() {
@@ -72,4 +65,3 @@ export class CvComponent {
     });
   }
 }
-
