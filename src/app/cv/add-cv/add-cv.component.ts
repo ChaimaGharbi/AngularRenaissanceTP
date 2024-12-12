@@ -29,6 +29,10 @@ export class AddCvComponent {
       this.form.patchValue(JSON.parse(savedData));
     }
 
+    this.form.get("age")?.valueChanges.subscribe((age) => {
+      this.checkAge(age);
+    });
+
     this.form.statusChanges
       .pipe(
         filter((status) => status === "VALID"),
@@ -42,11 +46,13 @@ export class AddCvComponent {
       );
   }
 
+  isUnderage = false;
+
   form = this.formBuilder.group(
     {
       name: ["", Validators.required],
       firstname: ["", Validators.required],
-      path: [""],
+      path: [{ value: "", disabled: true }],
       job: ["", Validators.required],
       cin: [
         "",
@@ -63,6 +69,16 @@ export class AddCvComponent {
       ],
     },
   );
+
+  checkAge(age: number | null) {
+    if (age === null || age < 18) {
+      this.isUnderage = true;
+      this.form.get("path")?.disable();
+    } else {
+      this.isUnderage = false;
+      this.form.get("path")?.enable();
+    }
+  }
 
   addCv() {
     this.cvService.addCv(this.form.value as Cv).subscribe({
@@ -83,18 +99,23 @@ export class AddCvComponent {
   get name(): AbstractControl {
     return this.form.get("name")!;
   }
+
   get firstname() {
     return this.form.get("firstname");
   }
+
   get age(): AbstractControl {
     return this.form.get("age")!;
   }
+
   get job() {
     return this.form.get("job");
   }
+
   get path() {
     return this.form.get("path");
   }
+
   get cin(): AbstractControl {
     return this.form.get("cin")!;
   }
