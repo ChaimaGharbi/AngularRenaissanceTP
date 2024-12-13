@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
+import { CinExistsValidator } from "./cinExistsValidator.validator";
 
 @Component({
   selector: "app-add-cv",
@@ -33,6 +34,8 @@ export class AddCvComponent {
         "",
         {
           validators: [Validators.required, Validators.pattern("[0-9]{8}")],
+          asyncValidators: [CinExistsValidator(this.cvService)],
+          updateOn: "change",
         },
       ],
       age: [
