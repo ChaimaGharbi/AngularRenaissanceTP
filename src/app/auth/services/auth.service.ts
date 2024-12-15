@@ -21,5 +21,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('addCvForm');
   }
 }
