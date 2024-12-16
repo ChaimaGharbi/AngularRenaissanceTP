@@ -1,15 +1,11 @@
 import { Component } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  Validators,
-} from "@angular/forms";
+import { AbstractControl, FormBuilder, Validators } from "@angular/forms";
 import { CvService } from "../services/cv.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
-import { CinExistsValidator } from "./cinExistsValidator.validator";
+import { cinExistsValidator } from "./cin-exists.validator";
 
 @Component({
   selector: "app-add-cv",
@@ -21,8 +17,8 @@ export class AddCvComponent {
     private cvService: CvService,
     private router: Router,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+  ) { }
 
   form = this.formBuilder.group(
     {
@@ -34,8 +30,7 @@ export class AddCvComponent {
         "",
         {
           validators: [Validators.required, Validators.pattern("[0-9]{8}")],
-          asyncValidators: [CinExistsValidator(this.cvService)],
-          updateOn: "change",
+          asyncValidators: cinExistsValidator(this.cvService),
         },
       ],
       age: [
@@ -55,7 +50,7 @@ export class AddCvComponent {
       },
       error: (err) => {
         this.toastr.error(
-          `Une erreur s'est produite, Veuillez contacter l'admin`
+          `Une erreur s'est produite, Veuillez contacter l'admin`,
         );
       },
     });
