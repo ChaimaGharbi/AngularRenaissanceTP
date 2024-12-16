@@ -11,9 +11,7 @@
   Age: <input type="text" class="form-control" formControlName="age" />
   Cin: <input type="text" class="form-control" formControlName="cin" />
   <div
-    *ngIf="
-      form.errors && form.errors['cinFirstCars'] && cin?.touched && age?.touched
-    "
+    *ngIf="form.errors?.['cinFirstCharacters'] && showCinError()"
     class="alert alert-danger"
   >
     Cette Cin est invalide
