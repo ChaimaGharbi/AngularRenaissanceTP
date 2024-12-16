@@ -1,15 +1,12 @@
 import { Component } from "@angular/core";
-import {
-  AbstractControl,
-  FormBuilder,
-  Validators,
-} from "@angular/forms";
+import { AbstractControl, FormBuilder, Validators } from "@angular/forms";
 import { CvService } from "../services/cv.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
 import { filter } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-add-cv",
@@ -21,19 +18,22 @@ export class AddCvComponent {
     private cvService: CvService,
     private router: Router,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
-    const savedData = localStorage.getItem('addCvForm');
+    const savedData = localStorage.getItem("addCvForm");
     if (savedData) {
       this.form.patchValue(JSON.parse(savedData));
     }
 
     this.form.statusChanges
-      .pipe(filter((status) => status === 'VALID'))
+      .pipe(
+        filter((status) => status === "VALID"),
+        takeUntilDestroyed(),
+      )
       .subscribe(() =>
-        localStorage.setItem('addCvForm', JSON.stringify(this.form.value))
+        localStorage.setItem("addCvForm", JSON.stringify(this.form.value))
       );
   }
 
@@ -61,13 +61,13 @@ export class AddCvComponent {
   addCv() {
     this.cvService.addCv(this.form.value as Cv).subscribe({
       next: (cv) => {
-        localStorage.removeItem('addCvForm');
+        localStorage.removeItem("addCvForm");
         this.router.navigate([APP_ROUTES.cv]);
         this.toastr.success(`Le cv ${cv.firstname} ${cv.name}`);
       },
       error: (err) => {
         this.toastr.error(
-          `Une erreur s'est produite, Veuillez contacter l'admin`
+          `Une erreur s'est produite, Veuillez contacter l'admin`,
         );
       },
     });
