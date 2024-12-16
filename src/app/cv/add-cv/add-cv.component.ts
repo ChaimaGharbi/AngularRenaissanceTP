@@ -5,10 +5,11 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
-import { cinExistsValidator } from "./cin-exists.validator";
 import { filter, map, startWith } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { STORAGE_KEY_NAMES } from "src/config/storage.config";
+import { cinExistsValidator } from "../validators/cin-exists.validator";
+import { cinFirstCharactersValidator } from "../validators/cin-first-characters.validator";
 
 @Component({
   selector: "app-add-cv",
@@ -80,6 +81,9 @@ export class AddCvComponent {
         },
       ],
     },
+    {
+      validators: cinFirstCharactersValidator,
+    },
   );
 
   addCv() {
@@ -120,5 +124,10 @@ export class AddCvComponent {
 
   get cin(): AbstractControl {
     return this.form.get("cin")!;
+  }
+
+  showCinError() {
+    return (this.cin?.touched || this.cin?.value !== "") &&
+      (this.age?.touched || this.age?.value !== "0");
   }
 }
