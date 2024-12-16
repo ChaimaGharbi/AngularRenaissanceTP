@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
+import { cinExistsValidator } from "./cin-exists.validator";
 import { filter } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { STORAGE_KEY_NAMES } from "src/config/storage.config";
@@ -51,6 +52,7 @@ export class AddCvComponent {
         "",
         {
           validators: [Validators.required, Validators.pattern("[0-9]{8}")],
+          asyncValidators: cinExistsValidator(this.cvService),
         },
       ],
       age: [
