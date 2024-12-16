@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
 import { cinExistsValidator } from "./cin-exists.validator";
-import { filter } from "rxjs";
+import { filter, map, startWith } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { STORAGE_KEY_NAMES } from "src/config/storage.config";
 
@@ -21,16 +21,30 @@ export class AddCvComponent {
     private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-  ) { }
-
-  ngOnInit() {
+  ) {
     const savedData = localStorage.getItem(STORAGE_KEY_NAMES.addCvForm);
     if (savedData) {
       this.form.patchValue(JSON.parse(savedData));
     }
 
-    this.form.get("age")?.valueChanges.subscribe((age) => {
-      this.checkAge(age);
+    this.age.valueChanges.pipe(
+      startWith(this.age.value),
+      map((value) => {
+        const age = Number(value);
+
+        if (!Number.isInteger(age) || age < 0) {
+          return 0;
+        }
+
+        return age;
+      }),
+      takeUntilDestroyed(),
+    ).subscribe((age) => {
+      if (age < 18) {
+        return void this.path?.disable();
+      }
+
+      this.path?.enable();
     });
 
     this.form.statusChanges
@@ -46,13 +60,11 @@ export class AddCvComponent {
       );
   }
 
-  isUnderage = false;
-
   form = this.formBuilder.group(
     {
       name: ["", Validators.required],
       firstname: ["", Validators.required],
-      path: [{ value: "", disabled: true }],
+      path: [""],
       job: ["", Validators.required],
       cin: [
         "",
@@ -69,16 +81,6 @@ export class AddCvComponent {
       ],
     },
   );
-
-  checkAge(age: number | null) {
-    if (age === null || age < 18) {
-      this.isUnderage = true;
-      this.form.get("path")?.disable();
-    } else {
-      this.isUnderage = false;
-      this.form.get("path")?.enable();
-    }
-  }
 
   addCv() {
     this.cvService.addCv(this.form.value as Cv).subscribe({
