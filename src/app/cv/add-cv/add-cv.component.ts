@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
 import { cinExistsValidator } from "./cin-exists.validator";
-import { filter } from "rxjs";
+import { filter, map, startWith } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { STORAGE_KEY_NAMES } from "src/config/storage.config";
 
@@ -21,13 +21,31 @@ export class AddCvComponent {
     private router: Router,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
-  ) { }
-
-  ngOnInit() {
+  ) {
     const savedData = localStorage.getItem(STORAGE_KEY_NAMES.addCvForm);
     if (savedData) {
       this.form.patchValue(JSON.parse(savedData));
     }
+
+    this.age.valueChanges.pipe(
+      startWith(this.age.value),
+      map((value) => {
+        const age = Number(value);
+
+        if (!Number.isInteger(age) || age < 0) {
+          return 0;
+        }
+
+        return age;
+      }),
+      takeUntilDestroyed(),
+    ).subscribe((age) => {
+      if (age < 18) {
+        return void this.path?.disable();
+      }
+
+      this.path?.enable();
+    });
 
     this.form.statusChanges
       .pipe(
@@ -83,18 +101,23 @@ export class AddCvComponent {
   get name(): AbstractControl {
     return this.form.get("name")!;
   }
+
   get firstname() {
     return this.form.get("firstname");
   }
+
   get age(): AbstractControl {
     return this.form.get("age")!;
   }
+
   get job() {
     return this.form.get("job");
   }
+
   get path() {
     return this.form.get("path");
   }
+
   get cin(): AbstractControl {
     return this.form.get("cin")!;
   }
