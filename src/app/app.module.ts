@@ -45,6 +45,7 @@ import { AutocompleteItemComponent } from "./cv/autocomplete-item/autocomplete-i
 import { MasterDetailsCvComponent } from "./mycv/master-details-cv/master-details-cv.component";
 import { List2Component } from "./mycv/list/list.component";
 import { DetailsCv2Component } from "./mycv/details-cv/details-cv.component";
+import { UserItemComponent } from "./optimizationPattern/user-item/user-item.component";
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { DetailsCv2Component } from "./mycv/details-cv/details-cv.component";
     RhComponent,
     UserListComponent,
     ProductsComponent,
+    UserItemComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

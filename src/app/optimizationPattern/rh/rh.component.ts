@@ -1,4 +1,9 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgZone,
+  OnInit,
+} from "@angular/core";
 import { User, UsersService } from "../users.service";
 import * as ChartJs from "chart.js/auto";
 
@@ -6,6 +11,7 @@ import * as ChartJs from "chart.js/auto";
   selector: "app-rh",
   templateUrl: "./rh.component.html",
   styleUrls: ["./rh.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RhComponent implements OnInit {
   oddUsers: User[];
