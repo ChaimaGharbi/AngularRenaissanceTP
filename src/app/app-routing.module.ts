@@ -16,6 +16,12 @@ const routes: Route[] = [
         .then((x) => x.RhComponent),
   },
   {
+    path: "ttc",
+    loadComponent: () =>
+      import("./ttc/ttc.component")
+        .then((x) => x.TtcComponent),
+  },
+  {
     path: "cv",
     loadComponent: () =>
       import("./cv/cv/cv.component")

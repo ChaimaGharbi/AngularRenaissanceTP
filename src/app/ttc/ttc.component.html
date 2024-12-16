@@ -1,0 +1,21 @@
+<h1> TTC Calculator </h1>
+
+<div class="wrapper">
+  <input type="number" min="0" [(ngModel)]="price" />
+  <input type="number" min="0" [(ngModel)]="quantity" />
+  <input type="number" min="0" [(ngModel)]="vat" />
+
+  <p> Prix HT </p>
+  <p> Quantité </p>
+  <p> TVA </p>
+
+  <div class="unit-price">
+    Prix unitaire TTC : {{ unitPriceString() }}
+  </div>
+  <div class="total">
+    Prix totale TTC : {{ totalString() }}
+  </div>
+  <div class="discount">
+    Discount : {{ discountString() }}
+  </div>
+</div>
