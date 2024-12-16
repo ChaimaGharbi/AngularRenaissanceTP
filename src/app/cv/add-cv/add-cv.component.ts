@@ -7,6 +7,7 @@ import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
 import { filter } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { STORAGE_KEY_NAMES } from "src/config/storage.config";
 
 @Component({
   selector: "app-add-cv",
@@ -22,7 +23,7 @@ export class AddCvComponent {
   ) { }
 
   ngOnInit() {
-    const savedData = localStorage.getItem("addCvForm");
+    const savedData = localStorage.getItem(STORAGE_KEY_NAMES.addCvForm);
     if (savedData) {
       this.form.patchValue(JSON.parse(savedData));
     }
@@ -33,7 +34,10 @@ export class AddCvComponent {
         takeUntilDestroyed(),
       )
       .subscribe(() =>
-        localStorage.setItem("addCvForm", JSON.stringify(this.form.value))
+        localStorage.setItem(
+          STORAGE_KEY_NAMES.addCvForm,
+          JSON.stringify(this.form.value),
+        )
       );
   }
 
@@ -61,7 +65,8 @@ export class AddCvComponent {
   addCv() {
     this.cvService.addCv(this.form.value as Cv).subscribe({
       next: (cv) => {
-        localStorage.removeItem("addCvForm");
+        localStorage.removeItem(STORAGE_KEY_NAMES.addCvForm);
+
         this.router.navigate([APP_ROUTES.cv]);
         this.toastr.success(`Le cv ${cv.firstname} ${cv.name}`);
       },
