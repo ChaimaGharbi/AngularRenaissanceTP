@@ -1,0 +1,20 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.unit-price {
+  padding: 0.5rem 1rem;
+  background-color: rgb(0 128 0 / 0.5);
+}
+
+.total {
+  padding: 0.5rem 1rem;
+  background-color: rgb(0 128 128 / 0.5);
+}
+
+.discount {
+  padding: 0.5rem 1rem;
+  background-color: rgb(255 0 0 / 0.5);
+}
