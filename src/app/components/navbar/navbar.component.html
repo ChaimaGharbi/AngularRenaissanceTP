@@ -5,8 +5,9 @@
       [routerLink]="['']"
       [routerLinkActiveOptions]="{ exact: true }"
       routerLinkActive="active text-primary"
-      >cvStartingAdvProject</a
     >
+      cvStartingAdvProject
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -26,47 +27,54 @@
           [routerLink]="['']"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="active text-primary"
-          >Home</a
         >
+          Home
+        </a>
         <a
           class="nav-link"
           [routerLinkActiveOptions]="{ exact: true }"
           [routerLink]="['cv']"
           routerLinkActive="active text-primary"
-          >Cv</a
         >
+          Cv
+        </a>
         @if (authService.isAuthenticated()) {
           <a
             class="nav-link"
             [routerLink]="['cv/add']"
             routerLinkActive="active text-primary"
-            >Add Cv</a
           >
-          }
+            Add Cv
+          </a>
+        }
         <a
           class="nav-link"
           [routerLink]="['todo']"
           routerLinkActive="active text-primary"
-          >Todo</a
         >
+          Todo
+        </a>
         <a
           class="nav-link"
           [routerLink]="['word']"
           routerLinkActive="active text-primary"
-          >Word</a
         >
+          Word
+        </a>
         <a
           class="nav-link"
           [routerLink]="['admin', 'color']"
           routerLinkActive="active text-primary"
-          >Color</a
         >
+          Color
+        </a>
         <a
           class="nav-link"
           [routerLink]="['rh']"
           routerLinkActive="active text-primary"
-          >Rh</a
         >
+          Rh
+        </a>
         <a
           class="nav-link"
           [routerLink]="['ttc']"
@@ -79,15 +87,14 @@
             class="nav-link"
             [routerLink]="['login']"
             routerLinkActive="active text-primary"
-            >Login</a
           >
+            Login
+          </a>
         }
-        @if(authService.isAuthenticated()) {
-          <a
-            class="nav-link"
-            (click)="logout()"
-            >Logout</a
-          >
+        @if (authService.isAuthenticated()) {
+          <a class="nav-link" (click)="logout()">
+            Logout
+          </a>
         }
       </div>
     </div>
