@@ -40,12 +40,8 @@ import { UserListComponent } from "./optimizationPattern/user-list/user-list.com
 import { ProductsComponent } from "./products/products.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { SliderComponent } from "./rxjs/slider/slider.component";
-import { AutocompleteListComponent } from "./cv/autocomplete-list/autocomplete-list.component";
-import { AutocompleteItemComponent } from "./cv/autocomplete-item/autocomplete-item.component";
-import { MasterDetailsCvComponent } from "./mycv/master-details-cv/master-details-cv.component";
-import { List2Component } from "./mycv/list/list.component";
-import { DetailsCv2Component } from "./mycv/details-cv/details-cv.component";
 import { UserItemComponent } from "./optimizationPattern/user-item/user-item.component";
+import { FiboPipe } from "./pipes/fibo.pipe";
 
 @NgModule({
   declarations: [
@@ -76,6 +72,7 @@ import { UserItemComponent } from "./optimizationPattern/user-item/user-item.com
     UserListComponent,
     ProductsComponent,
     UserItemComponent,
+    FiboPipe,
   ],
   bootstrap: [AppComponent],
   imports: [
