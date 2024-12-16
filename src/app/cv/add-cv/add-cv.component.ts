@@ -6,6 +6,9 @@ import { ToastrService } from "ngx-toastr";
 import { APP_ROUTES } from "src/config/routes.config";
 import { Cv } from "../model/cv";
 import { cinExistsValidator } from "./cin-exists.validator";
+import { filter } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { STORAGE_KEY_NAMES } from "src/config/storage.config";
 
 @Component({
   selector: "app-add-cv",
@@ -19,6 +22,25 @@ export class AddCvComponent {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
   ) { }
+
+  ngOnInit() {
+    const savedData = localStorage.getItem(STORAGE_KEY_NAMES.addCvForm);
+    if (savedData) {
+      this.form.patchValue(JSON.parse(savedData));
+    }
+
+    this.form.statusChanges
+      .pipe(
+        filter((status) => status === "VALID"),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() =>
+        localStorage.setItem(
+          STORAGE_KEY_NAMES.addCvForm,
+          JSON.stringify(this.form.value),
+        )
+      );
+  }
 
   form = this.formBuilder.group(
     {
@@ -45,6 +67,8 @@ export class AddCvComponent {
   addCv() {
     this.cvService.addCv(this.form.value as Cv).subscribe({
       next: (cv) => {
+        localStorage.removeItem(STORAGE_KEY_NAMES.addCvForm);
+
         this.router.navigate([APP_ROUTES.cv]);
         this.toastr.success(`Le cv ${cv.firstname} ${cv.name}`);
       },
