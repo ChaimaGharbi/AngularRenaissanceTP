@@ -1,18 +1,17 @@
-import { Component, inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { CredentialsDto } from '../dto/credentials.dto';
-import { ROUTES, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { APP_ROUTES } from '../../../config/routes.config';
-import { FormsModule } from '@angular/forms';
-
+import { Component, inject } from "@angular/core";
+import { AuthService } from "../services/auth.service";
+import { CredentialsDto } from "../dto/credentials.dto";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { APP_ROUTES } from "../../../config/routes.config";
+import { FormsModule } from "@angular/forms";
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    standalone: true,
-    imports: [FormsModule],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"],
+  standalone: true,
+  imports: [FormsModule],
 })
 export class LoginComponent {
   private authService = inject(AuthService);
@@ -21,13 +20,12 @@ export class LoginComponent {
 
   login(credentials: CredentialsDto) {
     this.authService.login(credentials).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.id);
+      next: (_response: unknown) => {
         this.toastr.success(`Bienvenu chez vous :)`);
         this.router.navigate([APP_ROUTES.cv]);
       },
-      error: (error) => {
-        this.toastr.error('Veuillez vérifier vos credentials');
+      error: (_error: unknown) => {
+        this.toastr.error("Veuillez vérifier vos credentials");
       },
     });
   }
